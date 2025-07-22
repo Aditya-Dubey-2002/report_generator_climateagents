@@ -1,0 +1,9 @@
+{
+  "dependencies": ["."],
+  "dockerfile_lines": [],
+    "python_version": "3.12",
+  "graphs": {
+    "retrieval_graph": "./src/retrieval_graph/graph.py:graph"
+  },
+  "env": ".env"
+}

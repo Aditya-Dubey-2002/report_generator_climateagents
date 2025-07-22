@@ -1,0 +1,87 @@
+steps:
+  # Step 1: Install LangGraph CLI and generate Dockerfile
+  - name: 'python:3.12'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        pip install langgraph-cli && \
+        langgraph dockerfile -c langgraph.json Dockerfile
+    secretEnv: ['LANGSMITH_API_KEY', 'OPENAI_API_KEY','DATABASE_URI','REDIS_URI','LANGSMITH_TRACING','LANGSMITH_PROJECT','LANGSMITH_ENDPOINT']
+
+  # Step 2: Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/report-generator/iscc-eu-report-image:latest'
+      - '.'
+
+  # Step 3: Push Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/report-generator/iscc-eu-report-image:latest'
+
+  # Step 4: Deploy to Cloud Run with secrets from Secret Manager
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'iscc-eu-report-image'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/report-generator/iscc-eu-report-image:latest'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--set-secrets'
+      - 'LANGSMITH_API_KEY=LANGSMITH_API_KEY:latest'
+      - '--set-secrets'
+      - 'OPENAI_API_KEY=OPENAI_API_KEY:latest'
+      - '--set-secrets'
+      - 'LANGSMITH_TRACING=LANGSMITH_TRACING:latest'
+      - '--set-secrets'
+      - 'LANGSMITH_PROJECT=LANGSMITH_PROJECT:latest'
+      - '--set-secrets'
+      - 'LANGSMITH_ENDPOINT=LANGSMITH_ENDPOINT:latest'
+      - '--set-secrets'
+      - 'REDIS_URI=REDIS_URI:latest'
+      - '--set-secrets'
+      - 'DATABASE_URI=DATABASE_URI:latest'
+      - '--port'
+      - '8000'
+      - '--allow-unauthenticated'
+      - '--timeout'
+      - '1800s'
+      - '--memory'
+      - '2Gi'
+      - '--cpu'
+      - '2'
+      - '--vpc-connector'
+      - 'iscc-eu-report-vpc-con'
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/LANGSMITH_API_KEY/versions/latest
+      env: 'LANGSMITH_API_KEY'
+    - versionName: projects/$PROJECT_ID/secrets/OPENAI_API_KEY/versions/latest
+      env: 'OPENAI_API_KEY'
+    - versionName: projects/$PROJECT_ID/secrets/DATABASE_URI/versions/latest
+      env: 'DATABASE_URI'
+    - versionName: projects/$PROJECT_ID/secrets/REDIS_URI/versions/latest
+      env: 'REDIS_URI'
+    - versionName: projects/$PROJECT_ID/secrets/LANGSMITH_TRACING/versions/latest
+      env: 'LANGSMITH_TRACING'
+    - versionName: projects/$PROJECT_ID/secrets/LANGSMITH_PROJECT/versions/latest
+      env: 'LANGSMITH_PROJECT'
+    - versionName: projects/$PROJECT_ID/secrets/LANGSMITH_ENDPOINT/versions/latest
+      env: 'LANGSMITH_ENDPOINT'
+
+substitutions:
+  _PROJECT_ID: 'report-generator'
+
+options:
+  substitution_option: 'ALLOW_LOOSE'
+  logging: 'CLOUD_LOGGING_ONLY'

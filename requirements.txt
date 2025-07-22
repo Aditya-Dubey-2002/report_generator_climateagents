@@ -1,0 +1,7 @@
+langchain_core
+langgraph
+langchain_mongodb
+langchain_community
+langchain_openai
+langgraph_cli
+langgraph_sdk
