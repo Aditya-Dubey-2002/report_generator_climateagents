@@ -19,9 +19,6 @@ from IPython.display import display, Markdown
 from dotenv import load_dotenv
 load_dotenv()
 
-
-
-
 async def main():
     # Create thread
 

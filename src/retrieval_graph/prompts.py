@@ -13,6 +13,7 @@ Limit to 3–4 short and simple sentences
 Use only the provided facts
 Do not include opinions or external information
 Clearly state that the GHG emission calculation is done according to the requirements of the ISCC EU framework
+Do not add title as it will be added later in the assembly prompt.
 
 """
 CALCULATION_METHODOLOGY_PROMPT = """ You are an expert in greenhouse gas (GHG) emissions accounting for corn (maize) used as a feedstock in the production of biofuels, bioliquids, or biomass fuels for transportation, electricity, heating, or cooling generation. Your work follows the requirements of the International Sustainability & Carbon Certification – European Union (ISCC EU) methodology and the European Union Renewable Energy Directive II (EU RED II) (Directive (EU) 2018/2001).
@@ -22,6 +23,7 @@ Clearly state that the GHG intensity calculations for corn are conducted accordi
 Briefly describe the methodology based on this source.
 Use only simple, clear sentences.
 Do not introduce any information that is not directly based on the above source.
+Do not add title as it will be added later in the assembly prompt.
 """
 ALLOCATION_APPROACH_PROMPT = """You are an expert in greenhouse gas (GHG) emissions accounting for corn (maize) used as a feedstock in the production of biofuels, bioliquids, or biomass fuels for transportation, electricity, heating, or cooling generation. Your work follows the requirements of the International Sustainability & Carbon Certification – European Union (ISCC EU) methodology and the European Union Renewable Energy Directive II (EU RED II) (Directive (EU) 2018/2001).
 You have been assigned to prepare a report for a study assessing the GHG intensity of corn under the ISCC EU framework. At this stage, write only the ALLOCATION APPROACH sub-section of the report using the following instructions:
@@ -29,6 +31,7 @@ Instructions for Writing the ALLOCATION APPROACH
 Clearly state that 100% of the GHG emissions from farming and transportation are allocated to the main product, corn, as the study assumes no co-products are generated during the farming stage.
 Use clear and concise language.
 Do not introduce any assumptions or information beyond what is stated above.
+Do not add title as it will be added later in the assembly prompt.
  """
 SCOPE_OF_ANALYSIS_PROMPT = """ You are an expert in greenhouse gas (GHG) emissions accounting for corn (maize) used as a feedstock in the production of biofuels, bioliquids, or biomass fuels for transportation, electricity, heating, or cooling generation. Your work follows the requirements of the International Sustainability & Carbon Certification – European Union (ISCC EU) methodology and the European Union Renewable Energy Directive II (EU RED II) (Directive (EU) 2018/2001).
 You have been assigned to prepare a report for a study assessing the GHG intensity of corn under the ISCC EU framework. At this stage, write only the SCOPE OF THE ANALYSIS section of the report using the following instructions:
@@ -42,7 +45,10 @@ Transportation of corn to the end user or fuel producer
 State the temporal coverage of the analysis:{input_data[General Information and data preparation][general information][Analysis Period]}
 State the geographical coverage of the analysis:{input_data[General Information and data preparation][Farm description][location]}
 Use clear and concise language
-Do not add any information beyond what is provided """
+Do not add any information beyond what is provided 
+Do not add title as it will be added later in the assembly prompt.
+"""
+
 ACTIVITY_DATA_USED_PROMPT = """
 You are an expert in greenhouse gas (GHG) emissions accounting for corn (maize) used as a feedstock in the production of biofuels, bioliquids, or biomass fuels for transportation, electricity, heating, or cooling generation. Your work follows the requirements of the International Sustainability & Carbon Certification – European Union (ISCC EU) methodology and the European Union Renewable Energy Directive II (EU RED II) (Directive (EU) 2018/2001).
 You have been assigned to prepare a report for a study assessing the GHG intensity of corn under the ISCC EU framework. At this stage, write only the ACTIVITY DATA USED section of the report using the following information and instructions:
@@ -50,7 +56,7 @@ The input for the task is {input_data}.
 You need to go through each key present in the nested input json data(multiple levels). you should proceed till there are no keys present inside that object.
 Once you are done processing the data, make a table representing that data.
 After making the table make a narrative summary as well, it will summaraize all the contents of the data.
-
+Do not add title as it will be added later in the assembly prompt.
 """
 
 STANDARD_DATA_USED_PROMPT = """ You are an expert in greenhouse gas (GHG) emissions accounting for corn (maize) used as a feedstock in the production of biofuels, bioliquids, or biomass fuels for transportation, electricity, heating, or cooling generation. Your work follows the requirements of the International Sustainability & Carbon Certification – European Union (ISCC EU) methodology and the European Union Renewable Energy Directive II (EU RED II) (Directive (EU) 2018/2001).
@@ -62,6 +68,7 @@ Use the data provided above to create tables summarizing various kinds of standa
 Follow the tables with a brief narrative (1–2 short paragraphs) summarizing and interpreting the key data points or trends.
 Keep the language clear, concise, and focused solely on the provided information.
 Do not introduce any external data or assumptions.
+Do not add title as it will be added later in the assembly prompt.
 """
 ASSUMPTIONS_AND_LIMITATIONS_PROMPT = """ You are an expert in greenhouse gas (GHG) emissions accounting for corn (maize) used as a feedstock in the production of biofuels, bioliquids, or biomass fuels for transportation, electricity, heating, or cooling generation. Your work follows the requirements of the International Sustainability & Carbon Certification – European Union (ISCC EU) methodology and the European Union Renewable Energy Directive II (EU RED II) (Directive (EU) 2018/2001).
 You have been assigned to prepare a report for a study assessing the GHG intensity of corn under the ISCC EU framework. At this stage, write only the LIMITATIONS AND ASSUMPTIONS section of the report using the following information and instructions:
@@ -74,6 +81,7 @@ Instructions for Writing the LIMITATIONS AND ASSUMPTIONS
 Use above notes and comments made for different types of data and write a few assumptions and limitations of the study following the rules and requirements of ISCC EU certification framework and EU RED II regulation.
 Keep the language clear, concise, and focused solely on the provided information.
 Do not introduce any external data or assumptions.
+Do not add title as it will be added later in the assembly prompt.
 """
 RESULTS_AND_INTERPRETATION_PROMPT = """ You are an expert in greenhouse gas (GHG) emissions accounting for corn (maize) used as a feedstock in the production of biofuels, bioliquids, or biomass fuels for transportation, electricity, heating, or cooling generation. Your work follows the requirements of the International Sustainability & Carbon Certification – European Union (ISCC EU) methodology and the European Union Renewable Energy Directive II (EU RED II) (Directive (EU) 2018/2001).
 You have been assigned to prepare a report for a study assessing the GHG intensity of corn under the ISCC EU framework. At this stage, write only the RESULT  section of the report using the following information and instructions:
@@ -89,6 +97,7 @@ Make a nice looking chart based on the data summarized in the table
 Follow the tables with a brief narrative (1–2 short paragraphs) summarizing and interpreting the key data points or trends.
 Keep the language clear, concise, and focused solely on the provided information.
 Do not introduce any external data or assumptions.
+Do not add title as it will be added later in the assembly prompt.
  """
 #RECOMMENDATION_PROMPT = """ write 1 paragraph based on recommendations """
 #CONCLUSION_PROMPT = """ conclude the report based on other sections """
@@ -104,6 +113,7 @@ Instructions for Writing the REFERENCE:
 Use above notes and comments made for different types of data and write a few REFERENCES of the study following the rules and requirements of ISCC EU certification framework and EU RED II regulation.
 Keep the language clear, concise, and focused solely on the provided information.
 Do not introduce any external data or assumptions.
+Do not add title as it will be added later in the assembly prompt.
  """
 ASSEMBLY_PROMPT = """
 You are an expert technical writer. Your task is to assemble a comprehensive report on the greenhouse gas (GHG) intensity of corn production based on the provided sections.
